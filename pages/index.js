@@ -1,20 +1,25 @@
-import Head from 'next/head'
-import Image from 'next/image'
 import axios from "axios";
-
-import styles from '../styles/Home.module.css'
-import { Container } from '@mui/material';
-import { Button } from '@mui/material';
-import { TextField } from '@mui/material';
-import { Box } from '@mui/material';
-import { FormControl } from '@mui/material';
+import styles from "../styles/Home.module.css";
+import { Container } from "@mui/material";
+import { Button } from "@mui/material";
+import { TextField } from "@mui/material";
+import { Box } from "@mui/material";
+import { Grid } from "@mui/material";
+import { Typography } from "@mui/material";
+import Prt from "../Src/Components/Prt";
+import { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 export default function Home() {
   const submitData = async (event) => {
     event.preventDefault();
-    const Name = event.target.Name.value;
-    const Email = event.target.Email.value;
-    const body = { Name, Email };
+    console.log(event);
+    const Name = event?.target.Name.value;
+    const Company = event?.target.Company.value;
+    const Phone = event?.target.Phone.value;
+    const Message = event?.target.Message.value;
+    const body = { Name, Company, Phone, Message };
+    console.log(body);
     await axios({
       method: "post",
       url: `https://script.google.com/macros/s/AKfycbxKxr2QETHEqq8d2FmdhoTfOZg1ZqjxNkhqYrYz68PSp2xOaD0xemFSl_X8S4h_4Vml0w/exec`,
@@ -25,54 +30,95 @@ export default function Home() {
         const { data } = response;
         console.log(data);
         if (data) {
-          // toast("Data added to google sheet");
           event.target.Name.value = "";
-          event.target.Email.value = "";
+          event.target.Company.value = "";
+          event.target.Phone.value = "";
+          event.target.Message.value = "";
+          toast.success("Data added to google sheet", {
+            duration: 1000,
+            position: "top-right",
+          });
         }
       })
       .catch(function (error) {
         console.log(error);
+        toast.error(error);
       });
   };
   return (
     <>
-      <Container maxWidth="sm" >
-        <Box >
-          <FormControl onSubmit={submitData}>
+      <Prt />
+      <Grid
+        // bgcolor="success.main"
+        container
+        spacing={0}
+        direction="column"
+        alignItems="center"
+        justifyContent="center"
+        style={{ minHeight: "100vh" }}
+      >
+        <Box style={{ zIndex: 50 }}>
+          <Typography sx={{ fontWeight: "bold" }} align="center" variant="h4">
+            Query form
+          </Typography>
+          <form onSubmit={submitData}>
             <TextField
-              label="Size"
+              sx={{ mt: 2 }}
+              label="Your name"
               id="outlined-size-small"
-              defaultValue="Small"
+              // defaultValue="Small"
               size="small"
-              name="Email"
-            />
-            <TextField
-              label="Size"
-              id="outlined-size-small"
-              defaultValue="Small"
-              size="small"
-              name="Email"
-            />
-            <input
-              className="mt-2 form-control"
-              name="Email"
-              type="email"
-              placeholder="Email"
-              required
-            />
-            <input
-              className="mt-2 form-control"
               name="Name"
-              type="text"
-              placeholder="Name"
               required
             />
-            <Button className="mt-2 btn btn-outline-secondary" type="submit">
+            <br />
+            <TextField
+              sx={{ mt: 2 }}
+              label="Company name"
+              id="outlined-size-small"
+              // defaultValue="Small"
+              size="small"
+              name="Company"
+              required
+            />
+            <br />
+            <TextField
+              sx={{ mt: 2 }}
+              label="Phone number"
+              id="outlined-size-small"
+              // defaultValue="Small"
+              size="small"
+              name="Phone"
+              type="number"
+              required
+            />
+            <br />
+            <TextField
+              fullWidth
+              sx={{ mt: 2 }}
+              id="outlined-multiline-static"
+              label="Message"
+              multiline
+              rows={4}
+              // defaultValue="Default Value"
+              name="Message"
+              required
+            />
+            <br />
+            <Button
+              style={{ margin: "16px auto", display: "flex" }}
+              size="large"
+              // sx={{ mt: 2 }}
+              color="primary"
+              variant="contained"
+              type="submit"
+            >
               Send
             </Button>
-          </FormControl>
+          </form>
         </Box>
-      </Container>
+      </Grid>
+      <Toaster />
     </>
   );
 }
