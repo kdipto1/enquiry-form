@@ -9,6 +9,7 @@ import { Typography } from "@mui/material";
 import Prt from "../Src/Components/Prt";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
+import Head from "next/head";
 
 export default function Home() {
   const submitData = async (event) => {
@@ -47,6 +48,10 @@ export default function Home() {
   };
   return (
     <>
+      <Head>
+        <title>Query Form</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
       <Prt />
       <Grid
         // bgcolor="success.main"
