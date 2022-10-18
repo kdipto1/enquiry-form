@@ -10,6 +10,7 @@ import Prt from "../Src/Components/Prt";
 import { Toaster } from "react-hot-toast";
 import toast from "react-hot-toast";
 import Head from "next/head";
+import { Divider } from "@mui/material";
 
 export default function Home() {
   const submitData = async (event) => {
@@ -121,6 +122,19 @@ export default function Home() {
               Send
             </Button>
           </form>
+          <Divider />
+          <Button
+            style={{ margin: "16px auto", display: "flex" }}
+            size="large"
+            // sx={{ mt: 2 }}
+            color="primary"
+            variant="contained"
+            href="https://docs.google.com/spreadsheets/d/1kMW3_8iOLkoWNsnN4FjigbZ-6vxhv1Z1K7y-a6cbzps/edit?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Query List
+          </Button>
         </Box>
       </Grid>
       <Toaster />
